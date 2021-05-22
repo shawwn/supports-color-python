@@ -194,7 +194,7 @@ def createSupportsColor(stream, **options):
 #   stderr: createSupportsColor({isTTY: tty.isatty(2)})
 # }
 
-supports_color = edict(
+supportsColor = edict(
     stdout=createSupportsColor(sys.stdout),
     stderr=createSupportsColor(sys.stderr),
 )

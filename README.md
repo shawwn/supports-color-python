@@ -1,12 +1,8 @@
 # supports-color
 
-Detect whether a terminal supports color.
+> Detect whether a terminal supports color
 
-WARNING: This repo is in development. It was automatically generated with [mkpylib](https://github.com/shawwn/scrap/blob/master/mkpylib). If you're reading this message, it means that I use this repo for my own purposes right now. It might not do anything at all; the default functionality is `print('TODO')`.
-
-If you really want to try it out, feel free. I recommend reading through the code and commit history to see if it does what you need, or [ask me](#contact) for status updates.
-
-Stay tuned!
+A port of the Node.js package [`supports-color`](https://github.com/chalk/supports-color) to Python.
 
 ## Install
 
@@ -14,15 +10,24 @@ Stay tuned!
 python3 -m pip install -U supports-color
 ```
 
-(That strange-looking setup command is because I've found it to be the most reliable. The `pip` command often aliases to python 2, and `pip3` often installs to the wrong Python package directory.)
-
 ## Usage
 
 ```py
-import supports_color
+from supports_color import supportsColor
 
-print('TODO')
+if supportsColor.stdout:
+    print('Terminal stdout supports color');
+
+if supportsColor.stdout.has256:
+    print('Terminal stdout supports 256 colors');
+
+if supportsColor.stderr.has16m:
+    print('Terminal stderr supports 16 million colors (truecolor)');
 ```
+
+## API
+
+See [chalk/supports-color API docs](https://github.com/chalk/supports-color#api).
 
 ## License
 
