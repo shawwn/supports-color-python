@@ -7,6 +7,9 @@ packages = \
 package_data = \
 {'': ['*']}
 
+install_requires = \
+['has-flag>=0.1.1,<0.2.0']
+
 setup_kwargs = {
     'name': 'supports-color',
     'version': '0.1.0',
@@ -19,6 +22,7 @@ setup_kwargs = {
     'url': 'https://github.com/shawwn/supports-color-python',
     'packages': packages,
     'package_data': package_data,
+    'install_requires': install_requires,
     'python_requires': '>=3.6,<4.0',
 }
 
