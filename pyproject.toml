@@ -10,6 +10,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.6"
 has-flag = "^0.1.1"
+dict = "^2020.12.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
