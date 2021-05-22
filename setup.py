@@ -8,13 +8,13 @@ package_data = \
 {'': ['*']}
 
 install_requires = \
-['has-flag>=0.1.1,<0.2.0']
+['dict>=2020.12.3,<2021.0.0', 'has-flag>=0.1.1,<0.2.0']
 
 setup_kwargs = {
     'name': 'supports-color',
-    'version': '0.1.0',
+    'version': '0.1.1',
     'description': 'Detect whether a terminal supports color',
-    'long_description': "# supports-color\n\nDetect whether a terminal supports color.\n\nWARNING: This repo is in development. It was automatically generated with [mkpylib](https://github.com/shawwn/scrap/blob/master/mkpylib). If you're reading this message, it means that I use this repo for my own purposes right now. It might not do anything at all; the default functionality is `print('TODO')`.\n\nIf you really want to try it out, feel free. I recommend reading through the code and commit history to see if it does what you need, or [ask me](#contact) for status updates.\n\nStay tuned!\n\n## Install\n\n```\npython3 -m pip install -U supports-color\n```\n\n(That strange-looking setup command is because I've found it to be the most reliable. The `pip` command often aliases to python 2, and `pip3` often installs to the wrong Python package directory.)\n\n## Usage\n\n```py\nimport supports_color\n\nprint('TODO')\n```\n\n## License\n\nMIT\n\n## Contact\n\nA library by [Shawn Presser](https://www.shawwn.com). If you found it useful, please consider [joining my patreon](https://www.patreon.com/shawwn)!\n\nMy Twitter DMs are always open; you should [send me one](https://twitter.com/theshawwn)! It's the best way to reach me, and I'm always happy to hear from you.\n\n- Twitter: [@theshawwn](https://twitter.com/theshawwn)\n- Patreon: [https://www.patreon.com/shawwn](https://www.patreon.com/shawwn)\n- HN: [sillysaurusx](https://news.ycombinator.com/threads?id=sillysaurusx)\n- Website: [shawwn.com](https://www.shawwn.com)\n\n",
+    'long_description': "# supports-color\n\n> Detect whether a terminal supports color\n\nA port of the Node.js package [`supports-color`](https://github.com/chalk/supports-color) to Python.\n\n## Install\n\n```\npython3 -m pip install -U supports-color\n```\n\n## Usage\n\n```py\nfrom supports_color import supportsColor\n\nif supportsColor.stdout:\n    print('Terminal stdout supports color');\n\nif supportsColor.stdout.has256:\n    print('Terminal stdout supports 256 colors');\n\nif supportsColor.stderr.has16m:\n    print('Terminal stderr supports 16 million colors (truecolor)');\n```\n\n## API\n\nSee [chalk/supports-color API docs](https://github.com/chalk/supports-color#api).\n\n## License\n\nMIT\n\n## Contact\n\nA library by [Shawn Presser](https://www.shawwn.com). If you found it useful, please consider [joining my patreon](https://www.patreon.com/shawwn)!\n\nMy Twitter DMs are always open; you should [send me one](https://twitter.com/theshawwn)! It's the best way to reach me, and I'm always happy to hear from you.\n\n- Twitter: [@theshawwn](https://twitter.com/theshawwn)\n- Patreon: [https://www.patreon.com/shawwn](https://www.patreon.com/shawwn)\n- HN: [sillysaurusx](https://news.ycombinator.com/threads?id=sillysaurusx)\n- Website: [shawwn.com](https://www.shawwn.com)\n\n",
     'author': 'Shawn Presser',
     'author_email': None,
     'maintainer': None,
