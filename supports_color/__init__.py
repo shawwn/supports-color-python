@@ -135,6 +135,11 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     # }
     if env.get('COLORTERM') == 'truecolor':
         return 3
+
+    # Fix for iTerm2 via SSH
+    if env.get('LC_TERMINAL') == 'iTerm2':
+        return 3
+
     #
     # if ('TERM_PROGRAM' in env) {
     #     const version = Number.parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
