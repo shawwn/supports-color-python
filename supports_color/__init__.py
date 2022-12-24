@@ -1,4 +1,4 @@
-__version__ = '0.1.1'
+__version__ = '9.3.1'
 
 from dict import dict as edict
 from has_flag import has_flag
