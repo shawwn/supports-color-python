@@ -1,10 +1,13 @@
 __version__ = '0.1.1'
 
+from dict import dict as edict
 from has_flag import has_flag
 from os import environ as env
-from dict import dict as edict
+import platform
 import re
 import sys
+
+# Ported from https://github.com/chalk/supports-color/blob/main/index.js
 
 if has_flag('no-color') or \
         has_flag('no-colors') or \
@@ -96,8 +99,7 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     # }
     if env.get('TERM') == 'dumb':
         return min
-    #
-    # TODO
+
     # if (process.platform === 'win32') {
     #     // Windows 10 build 10586 is the first Windows release that supports 256 colors.
     #     // Windows 10 build 14931 is the first release that supports 16m/TrueColor.
@@ -111,29 +113,54 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     #
     #     return 1;
     # }
-    #
+    if sys.platform == 'win32':
+        osRelease = platform.version().split('.')
+        if int(osRelease[0]) > 10 and int(osRelease[2] >= 10586):
+            if int(osRelease[2] >= 14931):
+                return 3
+            else:
+                return 2
+        return 1
+
     # if ('CI' in env) {
-    #     if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'DRONE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+    #     if ('GITHUB_ACTIONS' in env) {
+    #         return 3;
+    #     }
+    #
+    #     if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'BUILDKITE', 'DRONE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
     #         return 1;
     #     }
     #
     #     return min;
     # }
     if 'CI' in env:
+        if 'GITHUB_ACTIONS' in env:
+            return 3
+
         if any([sign in env for sign in
-                ['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'DRONE']]) or env.get(
+                ['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'BUILDKITE', 'DRONE']]) or env.get(
             'CI_NAME') == 'codeship':
             return 1
-    #
-    # TODO
+
     # if ('TEAMCITY_VERSION' in env) {
     #     return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
     # }
-    #
+    if 'TEAMCITY_VERSION' in env:
+        if re.search(r'^(9\.(0*[1-9]\d*)\.|\d{2,}\.)', env.get('TEAMCITY_VERSION'), re.IGNORECASE):
+            return 1
+        else:
+            return 0
+
     # if (env.COLORTERM === 'truecolor') {
     #     return 3;
     # }
     if env.get('COLORTERM') == 'truecolor':
+        return 3
+
+    # if (env.TERM === 'xterm-kitty') {
+    #     return 3;
+    # }
+    if env.get('TERM') == 'xterm-kitty':
         return 3
 
     # Fix for iTerm2 via SSH
@@ -163,14 +190,15 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     # if (/-256(color)?$/i.test(env.TERM)) {
     #     return 2;
     # }
-    if re.search(r'-256(color)?$', env.get('TERM'), re.IGNORECASE):
-        return 2
-    #
-    # if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-    #     return 1;
-    # }
-    if re.search(r'^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux', env.get('TERM'), re.IGNORECASE):
-        return 1
+    if 'TERM' in env:
+        if re.search(r'-256(color)?$', env.get('TERM'), re.IGNORECASE):
+            return 2
+        #
+        # if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+        #     return 1;
+        # }
+        if re.search(r'^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux', env.get('TERM'), re.IGNORECASE):
+            return 1
     #
     # if ('COLORTERM' in env) {
     #     return 1;
