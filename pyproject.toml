@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "supports-color"
-version = "0.1.1"
+version = "9.3.2"
 readme = "README.md"
 homepage = "https://github.com/shawwn/supports-color-python"
 description = "Detect whether a terminal supports color"
