@@ -82,6 +82,15 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
 
         if has_flag('color=256'):
             return 2
+
+    # // Check for Azure DevOps pipelines.
+    # // Has to be above the `!streamIsTTY` check.
+    # if ('TF_BUILD' in env && 'AGENT_NAME' in env) {
+    #     return 1;
+    # }
+    if 'TF_BUILD' in env and 'AGENT_NAME' in env:
+        return 1
+
     #
     # if (haveStream && !streamIsTTY && forceColor === undefined) {
     #     return 0;
@@ -119,15 +128,21 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
             return 3 if int(osRelease[2]) >= 14931 else 2
         return 1
     # if ('CI' in env) {
-    #     if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'DRONE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+    #     if ('GITHUB_ACTIONS' in env || 'GITEA_ACTIONS' in env) {
+    #         return 3;
+    #     }
+    #     if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'BUILDKITE', 'DRONE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
     #         return 1;
     #     }
     #
     #     return min;
     # }
     if 'CI' in env:
-        if any([sign in env for sign in
-                ['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'DRONE']]) or env.get(
+        if 'GITHUB_ACTIONS' in env or 'GITEA_ACTIONS' in env:
+            return 3
+
+        if any(sign in env for sign in
+                ['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'BUILDKITE', 'DRONE']) or env.get(
             'CI_NAME') == 'codeship':
             return 1
     #
@@ -141,6 +156,12 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     #     return 3;
     # }
     if env.get('COLORTERM') == 'truecolor':
+        return 3
+
+    # if (env.TERM === 'xterm-kitty') {
+    #     return 3;
+    # }
+    if env.get('TERM') == 'xterm-kitty':
         return 3
 
     # Fix for iTerm2 via SSH
