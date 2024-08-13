@@ -8,7 +8,7 @@ package_data = \
 {'': ['*']}
 
 install_requires = \
-['dict>=2020.12.3,<2021.0.0', 'has-flag>=0.1.1,<0.2.0']
+['has-flag>=0.1.1,<0.2.0']
 
 setup_kwargs = {
     'name': 'supports-color',

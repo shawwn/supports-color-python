@@ -2,7 +2,6 @@ __version__ = '0.1.1'
 
 from has_flag import has_flag
 from os import environ as env
-from dict import dict as edict
 import re
 import sys
 import platform
@@ -36,12 +35,12 @@ def translateLevel(level):
     if level == 0:
         return False
 
-    return edict(
-        level=level,
-        hasBasic=True,
-        has256=level >= 2,
-        has16m=level >= 3
-    )
+    return {
+        'level':    level,
+        'hasBasic': True,
+        'has256':   level >= 2,
+        'has16m':   level >= 3,
+    }
 
 
 # function _supportsColor(haveStream, {streamIsTTY, sniffFlags = true} = {}) {
@@ -207,7 +206,7 @@ def createSupportsColor(stream, **options):
 #   stderr: createSupportsColor({isTTY: tty.isatty(2)})
 # }
 
-supportsColor = edict(
-    stdout=createSupportsColor(sys.stdout),
-    stderr=createSupportsColor(sys.stderr),
-)
+supportsColor = {
+    'stdout': createSupportsColor(sys.stdout),
+    'stderr': createSupportsColor(sys.stderr),
+}
