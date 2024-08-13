@@ -6,6 +6,11 @@ import re
 import sys
 import platform
 
+class edict(dict):
+    def __getattr__(self, k):
+        return self.get(k)
+
+
 if has_flag('no-color') or \
         has_flag('no-colors') or \
         has_flag('color=false') or \
@@ -35,12 +40,12 @@ def translateLevel(level):
     if level == 0:
         return False
 
-    return {
+    return edict({
         'level':    level,
         'hasBasic': True,
         'has256':   level >= 2,
         'has16m':   level >= 3,
-    }
+    })
 
 
 # function _supportsColor(haveStream, {streamIsTTY, sniffFlags = true} = {}) {
@@ -227,7 +232,7 @@ def createSupportsColor(stream, **options):
 #   stderr: createSupportsColor({isTTY: tty.isatty(2)})
 # }
 
-supportsColor = {
+supportsColor = edict({
     'stdout': createSupportsColor(sys.stdout),
     'stderr': createSupportsColor(sys.stderr),
-}
+})
