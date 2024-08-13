@@ -5,6 +5,7 @@ from os import environ as env
 from dict import dict as edict
 import re
 import sys
+import platform
 
 if has_flag('no-color') or \
         has_flag('no-colors') or \
@@ -111,7 +112,14 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     #
     #     return 1;
     # }
-    #
+    if sys.platform == 'win32':
+        osRelease = platform.version().split('.')
+        if (
+            int(osRelease[0]) >= 10 and
+            int(osRelease[2]) >= 10586
+        ):
+            return 3 if int(osRelease[2]) >= 14931 else 2
+        return 1
     # if ('CI' in env) {
     #     if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'DRONE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
     #         return 1;
