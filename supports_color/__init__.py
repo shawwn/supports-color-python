@@ -98,7 +98,6 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
     if env.get('TERM') == 'dumb':
         return min
     #
-    # TODO
     # if (process.platform === 'win32') {
     #     // Windows 10 build 10586 is the first Windows release that supports 256 colors.
     #     // Windows 10 build 14931 is the first release that supports 16m/TrueColor.
@@ -133,10 +132,11 @@ def _supportsColor(haveStream, *, streamIsTTY, sniffFlags=True):
             'CI_NAME') == 'codeship':
             return 1
     #
-    # TODO
     # if ('TEAMCITY_VERSION' in env) {
     #     return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
     # }
+    if 'TEAMCITY_VERSION' in env:
+        return 1 if re.search(r'^(9\.(0*[1-9]\d*)\.|\d{2,}\.)', env.get('TEAMCITY_VERSION')) else 0
     #
     # if (env.COLORTERM === 'truecolor') {
     #     return 3;
